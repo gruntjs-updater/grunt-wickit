@@ -1,7 +1,7 @@
 {
   "name": "grunt-wickit",
   "description": "A simple plugin to generate static html from a Github wiki repo, including an index for search capability.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/ICGGroup/grunt-wickit",
   "author": {
     "name": "Trimeego",

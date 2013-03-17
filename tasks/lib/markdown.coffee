@@ -71,6 +71,7 @@ module.exports =
     doc = _.template template,
       content: $.html()
       title: pullTitle(filename, src)
+      options: options
     $ = cheerio.load(doc);
     doc
 
