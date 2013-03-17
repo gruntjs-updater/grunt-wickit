@@ -102,19 +102,19 @@ module.exports = (grunt) ->
               console.log "copying >>  ".cyan + "#{path.relative(grunt.wickitBase, targetFile)}"
               grunt.file.copy filepath, targetFile
 
-        if options.template
-          template = grunt.file.read(path.join(grunt.wickitBase, options.template))
-        else
-          template = grunt.file.read(path.join(__dirname, "template.html"))
+          if options.template
+            template = grunt.file.read(path.join(grunt.wickitBase, options.template))
+          else
+            template = grunt.file.read(path.join(__dirname, "template.html"))
 
-          doc = _.template template,
-            content: """
-            <div class="hero-unit">This page was generated for you.  It provides cross repository search.  Once you navigate to any of the individual repositories, searches will be limited to that repository.  Return here search across repositories</div>
-            """
-            title: "Index"
-          console.log "creating >>  ".yellow + path.relative(grunt.wickitBase, htmlDestPath)
-          grunt.file.write htmlDestPath, doc
-          
+            doc = _.template template,
+              content: """
+              <div class="hero-unit">This page was generated for you.  It provides cross repository search.  Once you navigate to any of the individual repositories, searches will be limited to that repository.  Return here search across repositories</div>
+              """
+              title: "Index"
+            console.log "creating >>  ".yellow + path.relative(grunt.wickitBase, htmlDestPath)
+            grunt.file.write htmlDestPath, doc
+            
 
         callback()
 
