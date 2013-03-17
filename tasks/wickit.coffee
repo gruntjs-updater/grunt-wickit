@@ -27,7 +27,7 @@ module.exports = (grunt) ->
             gitTargetPath = options.gitPath
           else
             gp = url.parse(options.gitUrl).path
-            gitTargetPath = path.join('.wikis', path.basename(gp, path.extname(gp)))
+            gitTargetPath = path.join('.wikis', path.basename(path.basename(gp, path.extname(gp)), '.wiki'))
 
           git.pull grunt, options.gitUrl, gitTargetPath, (err)->
             callback(err, gitTargetPath)
