@@ -82,7 +82,6 @@ module.exports = (grunt) ->
 
       if not options.indexSelector
         options.indexSelector = ".content"
-
       indexify.build grunt, options.indexFiles, options.indexSelector, (err, index)->
         indexDestPath = path.join(grunt.wickitBase, options.indexPath)
 
@@ -116,7 +115,8 @@ module.exports = (grunt) ->
               title: "Index"
             console.log "creating >>  ".yellow + path.relative(grunt.wickitBase, htmlDestPath)
             grunt.file.write htmlDestPath, doc
-            
+        
+        callback()            
 
     ], (err)->
       if err
