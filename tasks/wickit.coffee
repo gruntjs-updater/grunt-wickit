@@ -31,10 +31,11 @@ module.exports = (grunt) ->
 
           git.pull grunt, options.gitUrl, gitTargetPath, (err)->
             callback(err, gitTargetPath)
-
+        else
+          callback(null, null)
     ,
       (gitTargetPath, callback)->
-        if options.sitePath
+        if options.sitePath and gitTargetPath
           console.log "\nCreating site from markdown".underline
           # make the wikis directory if not there.
           if grunt.file.exists(options.sitePath) 
@@ -66,6 +67,8 @@ module.exports = (grunt) ->
                 grunt.file.copy(filepath, path.join(options.sitePath, path.basename(filepath)))
 
           callback()
+        else
+          callback()
 
     , (callback)->        
 
@@ -81,7 +84,6 @@ module.exports = (grunt) ->
         options.indexSelector = ".content"
 
       indexify.build grunt, options.indexFiles, options.indexSelector, (err, index)->
-
         indexDestPath = path.join(grunt.wickitBase, options.indexPath)
 
         if grunt.file.exists(indexDestPath) 
@@ -116,9 +118,8 @@ module.exports = (grunt) ->
             grunt.file.write htmlDestPath, doc
             
 
-        callback()
-
     ], (err)->
-    
+      if err
+        grunt.fail.fatal err    
 
-        done()
+      done()
