@@ -1,8 +1,9 @@
 # grunt-wickit
 
-> A simple plugin to generate static html from a Github wiki repo, including an index for search capability.
+A simple plugin to generate static html from a Github wiki repo, including an index for search capability.
 
 ## Getting Started
+
 This plugin requires Grunt `~0.4.1`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
@@ -25,9 +26,6 @@ In your project's Gruntfile, add a section named `wickit` to the data object pas
 ```js
 grunt.initConfig({
   wickit: {
-    options: {
-      // Task-specific options go here.
-    },
     your_target: {
       // Target-specific file lists and/or options go here.
     },
@@ -37,53 +35,101 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.gitUrl
 Type: `String`
-Default value: `',  '`
 
-A string value that is used to do something with whatever.
+The url for the Github wiki.  For example, the value for the grunt-wickit wikit would be ```git@github.com:ICGGroup/grunt-wickit.wiki.git```.  **Note:** If not provided, No git repository will be pulled.  This may be helpfule if you want to generate a site based upon arbitrary content.
 
-#### options.punctuation
+#### options.gitPath
 Type: `String`
-Default value: `'.'`
 
-A string value that is used to do something else with whatever else.
+The target location for the git pull.  Also, the location used as the source for the conversion.  Even if ```gitUrl``` is not provided, files located in ```gitPath``` will still be converted. 
+
+
+#### options.sitePath
+Type: `String`
+
+The location, relative to the Gruntfile, where the generate site content will be placed.  **Note:** If not provided, no HTML content will be generated.
+
+#### options.sitePath
+Type: `String`
+
+The location, relative to the Gruntfile, where the generate site content will be placed
+
+#### options.template
+Type: `String`
+
+The template file, relative to the Gruntfile, to be used as a template for the html generation.  The template supports ```<%=title%>```, ```<%=contents%>``` and ```<%=options%>``` placeholders.  ```options``` contains the options from your local Gruntfile, allowing you to pass arbitrary content into the template.
+
+#### options.indexSelector
+Type: `String`
+Default value: `.content`
+
+The selector to be used when pulling the HTML content that is the basic for the text index.  This allows you to limit the scope of the index to include only content from the markdown documents.
+
+#### options.indexFiles
+Type: `String`
+Default value: `[sitePath]/**/*.html`
+
+The file spec for the files to be included in the index
+
+#### options.indexFiles
+Type: `Boolean`
+Default value: false
+
+If true, and index.html file will be created that simply allows search access to the index.  This is nothing fancy, but in certain configurations (see below) can provide a top-level index page that provides search capability across multiple repositories.
+
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+#### Minimum Configruation
+
+The minimum configuration is simple.   grunt-wickit is designed to provide reasonable defaults to most of the options above.  
 
 ```js
 grunt.initConfig({
   wickit: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+      wickwiki: {
+        options: {
+          gitUrl: "git@github.com:ICGGroup/grunt-wickit.wiki.git",
+          sitePath: "build/wickit"
+        }
+      }
+  }
 })
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### Consolidated Index Example
+
+In this example, two repositories are included in the build and a consolidated index is built in the ```build``` directory that covered both repositories.
 
 ```js
 grunt.initConfig({
   wickit: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
+    wickwiki: {
+      options: {
+        gitUrl: "git@github.com:ICGGroup/grunt-wickit.wiki.git",
+        sitePath: "build/wickit"
+      }
     },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+    other: {
+      options: {
+        gitUrl: "git@github.com:/other.wiki.git",
+        sitePath: "build/other"
+      }
     },
-  },
+    consolidated: {
+      options: {
+        indexFiles: "build/**/*.html",
+        indexPath: "build/index.js",
+        createIndexHtml: true        
+      }
+    }
+  }
 })
 ```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
-## Release History
-_(Nothing yet)_
+
