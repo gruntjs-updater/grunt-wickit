@@ -33,7 +33,12 @@ module.exports = (grunt) ->
           gitUrl: "git@github.com:ICGGroup/grunt-wickit.wiki.git"
           sitePath: "tmp/custom"
 
-    
+    thumbify:
+      simpletest:
+        options:
+          src: "tmp/**/*.html"
+          dest: "thumbs"
+
     # Unit tests.
     nodeunit:
       tests: ["test/*_test.coffee"]
@@ -49,7 +54,7 @@ module.exports = (grunt) ->
   
   # Whenever the "test" task is run, first clean the "tmp" dir, then run this
   # plugin's task(s), then test the result.
-  grunt.registerTask "test", ["clean", "wickit", "nodeunit"]
+  grunt.registerTask "test", ["clean", "wickit", "thumbify", "nodeunit"]
   
   # By default, lint and run all tests.
   grunt.registerTask "default", ["jshint", "test"]

@@ -129,6 +129,80 @@ grunt.initConfig({
 })
 ```
 
+
+## The "thumbify" task
+
+### Overview
+In your project's Gruntfile, add a section named `thumbify` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+  thumbify: {
+    your_target: {
+      // Target-specific file lists and/or options go here.
+    },
+  },
+})
+```
+
+### Options
+
+#### options.src
+Type: `files`
+
+The grunt file spec for the target files.
+
+#### options.dest
+Type: `string`
+
+The destination folder
+
+
+#### options.urlTransform
+Type: `function`
+
+A function that will be called with the file prior to rendering.  This gives you an opportunity to use a local server rather than file based rendering
+
+
+### Usage Examples
+
+#### Minimum Configruation
+
+The minimum configuration is simple.   
+
+```js
+grunt.initConfig({
+  thumbify: {
+    test: {
+      options: {
+        src: 'tmp/**/*.html',
+        dest: 'thumbs'
+      }
+    }
+  }
+})
+```
+
+#### Using Transform
+
+In this example, a url transformation is used to direct the rendering to an http:// page rather than a file:// reference
+
+```js
+grunt.initConfig({
+  thumbify: {
+    test: {
+      options: {
+        src: 'tmp/**/*.html',
+        dest: 'thumbs',
+        urlTransform: function(f){
+          return replace(/tmp/, "http://localhost");
+        }
+      }
+    }
+  }
+})
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
